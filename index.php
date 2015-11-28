@@ -8,31 +8,18 @@
 
 //include database connection details
 include('database.php');
-//hide error
-ini_set('display_errors', 0);
+
 //redirect to real link if URL is set
 if (!empty($_GET['url'])) {
     $filter_url = filter_var($_GET['url'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
     $command1 = "SELECT url_link FROM urls WHERE url_short = '" . $filter_url . "'";
     $redirect = mysqli_fetch_assoc(mysqli_query($connect, $command1));
     $redirect = $redirect["url_link"];
+
     header('HTTP/1.1 301 Moved Permanently');
     header("Location: " . $redirect);
 }
-//insert new url
-if (isset($_POST['url'])) {
-    //get random strong string for URL
-    $short = substr(bin2hex(openssl_random_pseudo_bytes(6, $short)), 3, 5);
-    //$short = substr(str_shuffle(uniqid(sha1(md5(mt_rand((double)microtime()*1000000))))), 3, 5);
-    $url_data = mysqli_real_escape_string($connect, $_POST['url']);
-    $command2 = "INSERT INTO urls (url_link, url_short, url_date) VALUES('$url_data','$short','" . time() . "')";
-    mysqli_query($connect, $command2);
-    $redirect = "?s=$short";
-    header('Location: ' . $redirect);
-    die;
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en" class="no-js" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -67,19 +54,30 @@ if (isset($_POST['url'])) {
 
     <!-- Costum Javascript code -->
     <script language="JavaScript">
-        function checkurl() {
-            var check = document.getElementById('longurl').value;
-            var MatcUrl = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-            if (MatcUrl.test(check)) {
-                console.log("OK");
-                return true;
-            } else {
-                window.alert("URL Invalid");
-                return false;
-            }
-        }
+        $(document).ready(function(){
+            $("#send").click(function(){
+              $('.alert').remove();
+              var check = document.getElementById('longurl').value;
+              var MatcUrl = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+              if (MatcUrl.test(check)) {
+                    $.ajax({
+                        type: "post",
+                        url: "ajax.php",
+                        data : $("#shortener").serialize(),
+                        success : function(data){
+                          var json = JSON.parse(data);
+                            $('.result').append('<div class="alert alert-success" role="alert">Short Url:<a target="_blank" href="'+  json.url +'">'+ json.url +'</a> <br> \
+                            Site Url <a target="_blank" href="'+  json.site_url+'">'+ json.site_url +'</a> \
+                            </div>');
+                        }
+                    });
+              }else {
+                  $('.result').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong> Invalid url.</div>');
+                  return false;
+              }
+            });
+        });
     </script>
-
     <!-- Content -->
     <link rel="author" href="//plus.google.com/103305118431759296457/posts"/>
     <link rel="publisher" href="//plus.google.com/103305118431759296457/posts"/>
@@ -89,31 +87,46 @@ if (isset($_POST['url'])) {
 <p class="chromeframe">outdated</p>
 <![endif]-->
 <div class="container">
-    <div class="well" style="margin-top: 10px;">
+    <div class="header col-md-6 center">
+        <h1 class='title'>0w1</h1>
+        <p class='desc'>URL Shortener Service</p>
+    </div>
+    <div class="well content">
         <div class="row">
-            <div class="col-md-6" style="border-right: 1px solid #c2c2c2;">
+            <div class="col-md-12">
                 <div class="form-group">
-                    <form method="post" action="" id="shortener" onSubmit="return checkurl();">
-                        <label for="longurl">URL to Shorten:</label> <input required="" type="text" name="url"
-                                                                            id="longurl">
-                        <button type="submit" class="btn btn-success">Shorten</button>
+                    <form method="post" action="" id="shortener" onsubmit="return false">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon" id="sizing-addon1">URL to Shorten:</span>
+                            <input type="text" name="url" id="longurl" class="form-control" placeholder="URL" aria-describedby="sizing-addon1">
+                            <span class="input-group-btn">
+                                 <button type="submit" id="send" class="btn btn-success">Shorten</button>
+                            </span>
+                        </div>
                     </form>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <?php if (!empty($_GET['s'])) { ?>
-                        <label for="longurl">Short URL:</label> <a
-                        href="<?php echo $server_name; ?><?php echo $_GET['s']; ?>"
-                        target="_blank"><?php echo $server_name; ?><?php echo $_GET['s']; ?></a><?php } ?>
-                </div>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 center">
+              <div class="result">
+                <?php if (!empty($_GET['s'])):?>
+                  <div class="alert alert-success" role="alert">Short Url:<a href="<?php echo $server_name; ?><?php echo $_GET['s']; ?>"
+                        target="_blank"><?php echo $server_name; ?><?php echo $_GET['s']; ?></a><br>
+                        Site Url:<a href="<?php echo $server_name; ?>?s=<?php echo $_GET['s']; ?>"
+                              target="_blank"><?php echo $server_name; ?>?s=<?php echo $_GET['s']; ?></a><br>
+                  </div>
+                <?php endif ?>
+
+              </div>
+          </div>
         </div>
     </div>
 </div>
 <div id="footer">
     <ul>
         <li><a href="mailto:admin@mertcangokgoz.com">Feedback</a></li>
+        <li><a href="https://github.com/MertcanGokgoz/simple-url-shortener">Github</a></li>
     </ul>
 </div>
 </body>
