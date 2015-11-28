@@ -1,3 +1,33 @@
+#body{
+    position: absolute;
+    width: 100%;
+    height: 200px;
+    top: 55%;
+    margin-top: -100px;
+    bottom: 20px;
+    z-index: 10;
+}
+
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+     text-align: center;
+}
+
+body{
+    margin:0 auto;
+    font-size: 17px;
+}
+
+.header > .desc {
+    font-size: 12px;
+}
+
+.content {
+    margin-top:10px;
+}
+
 #footer {
     text-align: center;
     position: absolute;
