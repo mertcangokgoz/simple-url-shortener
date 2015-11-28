@@ -5,6 +5,7 @@
  * Date: 27.11.2015
  * Time: 23:14
  */
+ini_set('display_errors', 0);
 
 function Database_Connector()
 {
