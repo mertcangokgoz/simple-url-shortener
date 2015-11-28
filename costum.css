@@ -1,0 +1,24 @@
+#footer {
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    font-size: 13px;
+}
+
+#footer ul {
+    list-style: disc;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+}
+
+#footer ul li {
+    color: #B40E0C;
+    display: inline;
+    padding: 0 5px;
+    list-style: circle;
+    font-size: 11px;
+    white-space: nowrap;
+}
