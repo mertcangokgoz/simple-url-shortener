@@ -15,11 +15,12 @@ if (!empty($_GET['url'])) {
     $command1 = "SELECT url_link FROM urls WHERE url_short = '" . $filter_url . "'";
     $redirect = mysqli_fetch_assoc(mysqli_query($connect, $command1));
     $redirect = urldecode($redirect["url_link"]);
-	
-	echo "<script>function go() {window.frames[0].document.body.innerHTML = '<form target=\"_parent\" method=\"post\" action=\"".$redirect."\"></form>';window.frames[0].document.forms[0].submit()}</script><iframe onload=\"window.setTimeout('go()', 99)\" src=\"about:blank\" style=\"visibility:hidden\"></iframe>";
+
+    //found some bug
+	//echo "<script>function go() {window.frames[0].document.body.innerHTML = '<form target=\"_parent\" method=\"post\" action=\"".$redirect."\"></form>';window.frames[0].document.forms[0].submit()}</script><iframe onload=\"window.setTimeout('go()', 10)\" src=\"about:blank\" style=\"visibility:hidden\"></iframe>";
     
-    //header('HTTP/1.1 301 Moved Permanently');
-    //header("Location: " . $redirect);
+    header('HTTP/1.1 301 Moved Permanently');
+    header("Location: " . $redirect);
 }
 ?>
 <!DOCTYPE html>
@@ -29,7 +30,6 @@ if (!empty($_GET['url'])) {
     <!-- Google Main Meta -->
     <meta charset='utf-8'>
     <meta name="robots" content="noindex, nofollow">
-    <meta name="google-site-verification" content="LPdSncuoqCucWsdFo_mdfpsmmjXdmUUFxm3x_2-5Bik"/>
     <meta name="description" content="Secure, fast and anonymous url Shortener Services for free">
 
     <!-- Meta -->
@@ -103,8 +103,8 @@ if (!empty($_GET['url'])) {
                             <span class="input-group-addon" id="sizing-addon1">URL to Shorten:</span>
                             <input type="text" name="url" id="longurl" class="form-control" placeholder="URL"
                                    aria-describedby="sizing-addon1">
-                            <input type="text" name="alias" id="alias" class="form-control" placeholder="Costum Alias"
-                                   aria-describedby="sizing-addon1">
+                            <input type="text" name="alias" id="alias" class="form-control" placeholder="Custom Alias"
+                                   aria-describedby="sizing-addon1" maxlength="6">
                             <span class="input-group-btn">
                                  <button type="submit" id="send" class="btn btn-success">Shorten</button>
                             </span>
