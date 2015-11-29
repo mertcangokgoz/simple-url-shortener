@@ -26,7 +26,7 @@ if (isset($_POST['url']) && !empty($_POST['url']) && preg_match_all('/(ftp|http|
     } else {
         $url_data = mysqli_real_escape_string($connect, $_POST['url']);
         $alias_data = mysqli_real_escape_string($connect, htmlspecialchars($_POST["alias"], ENT_QUOTES));
-        $command4 = "INSERT INTO urls (url_link, url_short, url_date) VALUES('" . urlencode($url_data) . "',' $alias_data ','" . time() . "')";
+        $command4 = "INSERT INTO urls (url_link, url_short, url_date) VALUES('" . urlencode($url_data) . "','$alias_data','" . time() . "')";
         mysqli_query($connect, $command4);
         $url = $server_name . $alias_data;
         $site_url = $server_name . "?s=$alias_data";
