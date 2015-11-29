@@ -16,11 +16,10 @@ if (!empty($_GET['url'])) {
     $redirect = mysqli_fetch_assoc(mysqli_query($connect, $command1));
     $redirect = urldecode($redirect["url_link"]);
 
-    //found some bug
-	//echo "<script>function go() {window.frames[0].document.body.innerHTML = '<form target=\"_parent\" method=\"post\" action=\"".$redirect."\"></form>';window.frames[0].document.forms[0].submit()}</script><iframe onload=\"window.setTimeout('go()', 10)\" src=\"about:blank\" style=\"visibility:hidden\"></iframe>";
+	echo "<script>function go() {window.frames[0].document.body.innerHTML = '<form target=\"_parent\" method=\"get\" action=\"".$redirect."\"></form>';window.frames[0].document.forms[0].submit()}</script><iframe onload=\"window.setTimeout('go()', 10)\" src=\"about:blank\" style=\"visibility:hidden\"></iframe>";
     
-    header('HTTP/1.1 301 Moved Permanently');
-    header("Location: " . $redirect);
+    //header('HTTP/1.1 301 Moved Permanently');
+    //header("Location: " . $redirect);
 }
 ?>
 <!DOCTYPE html>
