@@ -52,3 +52,24 @@ body{
     font-size: 11px;
     white-space: nowrap;
 }
+
+
+@media (max-width: 550px) {
+  .input-group-addon {
+    display: block;
+    border: none;
+  }
+  .input-group-btn {
+    padding-top:46px;
+  }
+}
+@media (max-width: 350px) {
+  .input-group-btn {
+    padding-top:50px;
+    display: block;
+  }
+  #send {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+}
