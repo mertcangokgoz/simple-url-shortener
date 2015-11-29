@@ -8,7 +8,7 @@
 
 //include database connection details
 include('database.php');
-
+$_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
 //redirect to real link if URL is set
 if (!empty($_GET['url'])) {
     $filter_url = filter_var($_GET['url'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
@@ -102,6 +102,8 @@ if (!empty($_GET['url'])) {
                         <div class="input-group input-group-lg">
                             <span class="input-group-addon" id="sizing-addon1">URL to Shorten:</span>
                             <input type="text" name="url" id="longurl" class="form-control" placeholder="URL"
+                                   aria-describedby="sizing-addon1">
+                            <input type="text" name="alias" id="alias" class="form-control" placeholder="Costum Alias"
                                    aria-describedby="sizing-addon1">
                             <span class="input-group-btn">
                                  <button type="submit" id="send" class="btn btn-success">Shorten</button>
