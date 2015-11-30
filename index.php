@@ -119,7 +119,7 @@ if (!empty($_GET['url'])) {
 						/*
 		                	http://0w1.xyz/?s="http gibi ilginç querylerin http ya da https ile başlama durumunun kontrolü
 		                	eğer çalışıyorsa bunu kullanabilirsiniz.
-		                	if koşulu çok uzun sürdüğü için or kontrolünden sonrasında alt kısma geçtim.
+		                	if koşulu çok uzun sürdüğü için or kontrolünden sonrasında alt kısma geçtim..
                     	*/
 						if (!empty($_GET['s']) and substr( $_GET['s'], 0, 7 ) === "http://" or
 						 substr( $_GET['s'], 0, 7 ) === "https://"): ?>
