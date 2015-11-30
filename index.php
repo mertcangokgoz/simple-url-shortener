@@ -115,14 +115,33 @@ if (!empty($_GET['url'])) {
         <div class="row">
             <div class="col-md-6 center">
                 <div class="result">
-                    <?php if (!empty($_GET['s'])): ?>
+                    <?php 
+						/*
+		                	http://0w1.xyz/?s="http gibi ilginç querylerin http ya da https ile başlama durumunun kontrolü
+		                	eğer çalışıyorsa bunu kullanabilirsiniz.
+		                	if koşulu çok uzun sürdüğü için or kontrolünden sonrasında alt kısma geçtim.
+                    	*/
+						if (!empty($_GET['s'])): ?>
+						<?php if(ctype_alnum($_GET['s'])): ?>
+						<?php 	
+								$command3 = "SELECT * FROM urls WHERE url_short= '" . urlencode($_GET['s']) . "';"; 
+								$control_database = mysqli_query($connect, $command3);
+								if(mysqli_num_rows($control_database) > 0):
+						?>
                         <div class="alert alert-success" role="alert">Short Url:<a
                                 href="<?php echo $server_name; ?><?php echo $_GET['s']; ?>"
                                 target="_blank"><?php echo $server_name; ?><?php echo $_GET['s']; ?></a><br>
                             Site Url:<a href="<?php echo $server_name; ?>?s=<?php echo $_GET['s']; ?>"
                                         target="_blank"><?php echo $server_name; ?>?s=<?php echo $_GET['s']; ?></a><br>
                         </div>
+					<?php else: ?>
+						<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong> Invalid url.</div>
                     <?php endif ?>
+                    <?php else: ?>
+                    	<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong> Invalid url.</div>
+                    <?php endif ?>
+                    <?php endif ?>
+
 
                 </div>
             </div>
