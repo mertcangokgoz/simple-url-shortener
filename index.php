@@ -115,7 +115,14 @@ if (!empty($_GET['url'])) {
         <div class="row">
             <div class="col-md-6 center">
                 <div class="result">
-                    <?php if (!empty($_GET['s'])): ?>
+                    <?php 
+						/*
+		                	http://0w1.xyz/?s="http gibi ilginç querylerin http ya da https ile başlama durumunun kontrolü
+		                	eğer çalışıyorsa bunu kullanabilirsiniz.
+		                	if koşulu çok uzun sürdüğü için or kontrolünden sonrasında alt kısma geçtim..
+                    	*/
+						if (!empty($_GET['s']) and substr( $_GET['s'], 0, 7 ) === "http://" or
+						 substr( $_GET['s'], 0, 7 ) === "https://"): ?>
                         <div class="alert alert-success" role="alert">Short Url:<a
                                 href="<?php echo $server_name; ?><?php echo $_GET['s']; ?>"
                                 target="_blank"><?php echo $server_name; ?><?php echo $_GET['s']; ?></a><br>
