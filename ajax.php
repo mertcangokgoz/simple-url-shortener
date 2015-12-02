@@ -2,6 +2,8 @@
 //include database connection details
 include('database.php');
 
+$_POST = filter_input_array(FILTER_SANITIZE_STRING);
+
 if (isset($_POST['url']) && !empty($_POST['url']) && preg_match_all('/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/', $_POST['url'])) {
     //get random strong string for URL
     $command3 = "SELECT * FROM urls WHERE url_link= '" . urlencode($_POST['url']) . "';";
@@ -32,4 +34,25 @@ if (isset($_POST['url']) && !empty($_POST['url']) && preg_match_all('/(ftp|http|
         $site_url = $server_name . "?s=$alias_data";
         echo json_encode(array("url" => $url, "site_url" => $site_url));
     }
+}
+
+//URL Status Check Function but not activated
+function checkStatus($url) {
+    $user_agent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_VERBOSE, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_exec($ch);
+    $http_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($http_status_code >= 200 && $http_status_code < 300)
+        return true;
+    else
+        return false;
 }

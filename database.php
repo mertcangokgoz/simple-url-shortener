@@ -17,8 +17,12 @@ function Database_Connector()
     $connection = new mysqli($server, $username, $password, $database_name);
     return $connection;
 }
-
+//http type
 $server_name = "http://" . $_SERVER['HTTP_HOST'] . "/";
+
+//https type
+
+//$server_name = "https://" . $_SERVER['HTTP_HOST'] . "/";
 
 $connect = Database_Connector();
 $command = "CREATE TABLE IF NOT EXISTS `urls` (
