@@ -3,7 +3,7 @@ Simple URL Shortener
 
 URL Shortener using Php and MySQL.
 
-[Demo Web Site](http://0w1.xyz/)
+[Demo Web Site](https://troya.ml/)
 
 #Using
 
