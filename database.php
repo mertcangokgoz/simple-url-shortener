@@ -2,36 +2,25 @@
 /**
  * Created by PhpStorm.
  * User: mertcan
- * Date: 27.11.2015
- * Time: 23:14
+ * Date: 10.05.2016
+ * Time: 16:14
  */
-ini_set('display_errors', 0);
+$dbhost = "localhost";
+$dbname = "test";
+$dbuser = "root";
+$dbpswd = "muratcan55";
 
-function Database_Connector()
-{
-    $server = "localhost";
-    $username = "database_username";
-    $password = "database_password";
-    $database_name = "database_name";
-
-    $connection = new mysqli($server, $username, $password, $database_name);
-    return $connection;
-}
-//http type
+//Server Type
 $server_name = "http://" . $_SERVER['HTTP_HOST'] . "/";
 
-//https type
 
-//$server_name = "https://" . $_SERVER['HTTP_HOST'] . "/";
+try {
 
-$connect = Database_Connector();
-$command = "CREATE TABLE IF NOT EXISTS `urls` (
-  `url_id` int(11) NOT NULL AUTO_INCREMENT,
-  `url_link` varchar(255) NOT NULL,
-  `url_short` varchar(6) NOT NULL,
-  `url_date` int(10) NOT NULL,
-  PRIMARY KEY (`url_id`),
-  UNIQUE KEY `url_id` (`url_id`,`url_short`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
-// Perform queries
-mysqli_query($connect, $command);
+    $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+    $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+} catch (PDOException $e) {
+    throw new PDOException("HATA  : " . $e->getMessage());
+}

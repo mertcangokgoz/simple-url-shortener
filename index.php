@@ -1,28 +1,37 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: mertcan
- * Date: 27.11.2015
- * Time: 23:14
+ * User: mertcan@0x2e88ce4
+ * Date: 06.03.2016
+ * Time: 00:01
  */
 
-//include database connection details
-include('database.php');
-$_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
-//redirect to real link if URL is set
-if (!empty($_GET['url'])) {
-    $filter_url = filter_var($_GET['url'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-    $command1 = "SELECT url_link FROM urls WHERE url_short = '" . $filter_url . "'";
-    $redirect = mysqli_fetch_assoc(mysqli_query($connect, $command1));
-    $redirect = urldecode($redirect["url_link"]);
+//Gerekli dosyalar ekleniyor.
+require('database.php');
+require('user_security.php');
 
-    echo "<script>function go() {window.frames[0].document.body.innerHTML = '<form target=\"_parent\" method=\"get\" action=\"" . $redirect . "\"></form>';window.frames[0].document.forms[0].submit()}</script><iframe onload=\"window.setTimeout('go()', 10)\" src=\"about:blank\" style=\"visibility:hidden\"></iframe>";
+//Kullanıcının kontrolü yapılıyor
+if (!$giris_yapilmis) {
+    echo "Yetkisiz Erişim Yönlendiriliyorsunuz.";
+    exit;
+}
+
+//Gerçek URL adresine yönlendirme işlemi
+if (!empty($_GET['url'])) {
+    $stmt = $db->prepare("SELECT url_link FROM urls WHERE url_short = ':short'");
+    $stmt->execute(array(':short' => $_GET['url']));
+    $results = $stmt->fetch(PDO::FETCH_ASSOC);
+    $results2 = urldecode($results['url_link']);
+
+    //Kullanıcı güvenliği için yönlendirme işlemi Javascript ve form yapısı kullanılarak yapılıyor.
+    echo "<script>function go() {window.frames[0].document.body.innerHTML = '<form target=\"_parent\" method=\"get\" action=\"" . $results2 . "\"></form>';window.frames[0].document.forms[0].submit()}</script><iframe onload=\"window.setTimeout('go()', 10)\" src=\"about:blank\" style=\"visibility:hidden\"></iframe>";
 }
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>0w1 &mdash; URL Shortener Services</title>
+
     <!-- Google Main Meta -->
     <meta charset='utf-8'>
     <meta name="robots" content="noindex, nofollow">
@@ -31,12 +40,13 @@ if (!empty($_GET['url'])) {
     <!-- Meta -->
     <meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Language" content="en">
     <meta name="author" content="Mertcan GOKGOZ, admin@mertcangokgoz.com, https://mertcangokgoz.com/"/>
 
     <!-- Jquery -->
-    <script src="inc/jquery-1.11.3.min.js"></script>
+    <script src="inc/jquery-1.12.3.min.js"></script>
+    <script src="inc/jquery-migrate-1.3.0.min.js"></script>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="inc/bootstrap.min.css">
@@ -48,7 +58,7 @@ if (!empty($_GET['url'])) {
     <script src="inc/bootstrap.min.js"></script>
 
     <!-- Costum Javascript code -->
-    <link rel="stylesheet" href="costum.css">
+    <link rel="stylesheet" href="inc/costum.css">
 
     <!-- Costum Javascript code -->
     <script language="JavaScript">
@@ -59,18 +69,18 @@ if (!empty($_GET['url'])) {
                 var MatcUrl = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
                 if (MatcUrl.test(check)) {
                     $.ajax({
-                        type: "post",
+                        type: "POST",
                         url: "ajax.php",
                         data: $("#shortener").serialize(),
                         success: function (data) {
                             var json = JSON.parse(data);
-                            $('.result').append('<div class="alert alert-success" role="alert">Short Url:<a target="_blank" href="' + json.url + '">' + json.url + '</a> <br> \
-                            Site Url <a target="_blank" href="' + json.site_url + '">' + json.site_url + '</a> \
+                            $('.result').append('<div class="alert alert-success" role="alert">Short Url: <a target="_blank" href="' + json.url + '">' + json.url + '</a> <br> \
+                            Site Url: <a target="_blank" href="' + json.site_url + '">' + json.site_url + '</a> \
                             </div>');
                         }
                     });
                 } else {
-                    $('.result').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong> Invalid url.</div>');
+                    $('.result').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>HATA!</strong> Tanımsız URL.</div>');
                     return false;
                 }
             });
@@ -96,13 +106,13 @@ if (!empty($_GET['url'])) {
                 <div class="form-group">
                     <form method="post" action="" id="shortener" onsubmit="return false">
                         <div class="input-group input-group-lg">
-                            <span class="input-group-addon" id="sizing-addon1">URL to Shorten:</span>
+                            <span class="input-group-addon" id="sizing-addon1">URL Kısalt:</span>
                             <input type="text" name="url" id="longurl" class="form-control" placeholder="URL"
-                                   aria-describedby="sizing-addon1">
+                                   aria-describedby="sizing-addon1" required>
                             <input type="text" name="alias" id="alias" class="form-control" placeholder="Custom Alias"
                                    aria-describedby="sizing-addon1" maxlength="6">
                             <span class="input-group-btn">
-                                 <button type="submit" id="send" class="btn btn-success">Shorten</button>
+                                 <button type="submit" id="send" class="btn btn-success">Küçült</button>
                             </span>
                         </div>
                     </form>
@@ -114,16 +124,17 @@ if (!empty($_GET['url'])) {
                 <div class="result">
                     <?php
                     /*
-                        http://0w1.xyz/?s="http gibi ilginç querylerin http ya da https ile başlama durumunun kontrolü
+                        http://xyz.xyz/?s="http gibi ilginç querylerin http ya da https ile başlama durumunun kontrolü
                         eğer çalışıyorsa bunu kullanabilirsiniz.
                         if koşulu çok uzun sürdüğü için or kontrolünden sonrasında alt kısma geçtim.
                     */
                     if (!empty($_GET['s'])): ?>
                         <?php if (ctype_alnum($_GET['s'])): ?>
                             <?php
-                            $command3 = "SELECT * FROM urls WHERE url_short= '" . urlencode($_GET['s']) . "';";
-                            $control_database = mysqli_query($connect, $command3);
-                            if (mysqli_num_rows($control_database) > 0):
+                            $stmt = $db->prepare("SELECT * FROM urls WHERE url_short=:urlshort");
+                            $stmt->execute(array(':urlshort' => urlencode($_GET['s'])));
+                            $uye = $stmt->fetch(PDO::FETCH_ASSOC);
+                            if ($uye->rowCount() > 0):
                                 ?>
                                 <div class="alert alert-success" role="alert">Short Url:<a
                                         href="<?php echo $server_name; ?><?php echo $_GET['s']; ?>"
@@ -133,17 +144,17 @@ if (!empty($_GET['url'])) {
                                         ?s=<?php echo $_GET['s']; ?></a><br>
                                 </div>
                             <?php else: ?>
-                                <div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert"
-                                                                   aria-label="close">&times;</a><strong>Error!</strong>
-                                    Invalid url.
-                                </div>
-                            <?php endif ?>
-                        <?php else: ?>
                             <div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert"
                                                                aria-label="close">&times;</a><strong>Error!</strong>
                                 Invalid url.
                             </div>
                         <?php endif ?>
+                    <?php else: ?>
+                        <div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert"
+                                                           aria-label="close">&times;</a><strong>Error!</strong>
+                            Invalid url.
+                        </div>
+                    <?php endif ?>
                     <?php endif ?>
                 </div>
             </div>
