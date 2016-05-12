@@ -15,9 +15,13 @@
      text-align: center;
 }
 
-body{
+body,html{
     margin:0 auto;
     font-size: 17px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-color: #d3d3d3;
+    font-family: 'Oxygen', sans-serif;
 }
 
 .header > .desc {
@@ -69,7 +73,7 @@ body{
     display: block;
   }
   #send {
-    border-top-left-radius: 6px;
+    border-top-left-radius:6px;
     border-bottom-left-radius: 6px;
   }
 }

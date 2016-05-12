@@ -57,7 +57,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                     $success = "Başarılı bir şekilde üye oldunuz yönlendiriliyorsunuz.";
                     header("Refresh:3; url=login.php");
                 } else {
-                    echo "Kayıt başarısız Yönlendiriliyorsunuz.";
+                    $error = "Kayıt başarısız Yönlendiriliyorsunuz.";
                     header("Location: register.php");
                 }
             }
@@ -68,8 +68,9 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="inc/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- Website CSS style -->
     <link rel="stylesheet" type="text/css" href="inc/main.css">
@@ -99,7 +100,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                     if (isset($error)) {
                         ?>
                         <div class="alert alert-danger">
-                            <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo $error; ?> !
+                            <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlspecialchars($error); ?> !
                         </div>
                         <?php
                     }
@@ -155,7 +156,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                 if (isset($success)) {
                     ?>
                     <div class="alert alert-success">
-                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo $success; ?> !
+                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlspecialchars($success); ?> !
                     </div>
                     <?php
                 }
@@ -168,7 +169,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
     </div>
 </div>
 
-<script type="text/javascript" src="inc/bootstrap.min.js"></script>
-<script type="application/javascript" src="inc/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
 </body>
 </html>

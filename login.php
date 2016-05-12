@@ -7,23 +7,24 @@
  */
 session_start();
 require('database.php');
+require('function.php');
 
 //Zaten giriş yapmış kullanıcıyı geri yönlendiriyoruz.
 if (isset($_SESSION['username'])) {
-    $warning = "Zaten Giriş yapmışsınız Sayın " . $_SESSION['username'] . " Yönlendiriliyorsunuz.";
+    $warning = "Zaten Giriş Yapmışsınız Sayın " . $_SESSION['username'] . " Yönlendiriliyorsunuz.";
     header("Refresh:2; url=index.php");
 }
 
 if (isset($_POST["submit"])) {
-    $kadi = $_POST["username"];
-    $sifre = $_POST["password"];
+    $kadi = cleandata($_POST["username"]);
+    $sifre = cleandata($_POST["password"]);
     $stmt = $db->prepare("select * from members where username = :kadi");
     $stmt->execute(array(":kadi" => $kadi));
     $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($stmt->rowCount() == 1 and password_verify($sifre, $userRow['password'])) {
         //Giriş yapacak olan kullanıcının oturum bilgilerini kayıt ediyoruz.
         $_SESSION["giris"] = md5("kullanic_oturum_" . md5($userRow['password']) . "_ds785667f5e67w423yjgty");
-        $_SESSION["username"] = $_POST["username"];
+        $_SESSION["username"] = $kadi;
         //Kullanıcıya çerez tanımlaması yapıyoruz.
         setcookie("username", $kadi, time() + 3600);
         setcookie("password", md5($sifre), time() + 3600);
@@ -34,18 +35,13 @@ if (isset($_POST["submit"])) {
     }
 }
 ?>
-<html lang="en">
+<html lang="TR">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="inc/bootstrap.min.css">
-
-    <!-- Website CSS style -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="inc/main.css">
-
-    <!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-
-    <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 
@@ -66,7 +62,7 @@ if (isset($_POST["submit"])) {
                 if (isset($error)) {
                     ?>
                     <div class="alert alert-danger">
-                        <i class="glyphicon glyphicon-remove"></i> &nbsp; <?php echo $error; ?> !
+                        <i class="glyphicon glyphicon-remove"></i> &nbsp; <?php echo htmlspecialchars($error); ?> !
                     </div>
                     <?php
                 }
@@ -75,7 +71,7 @@ if (isset($_POST["submit"])) {
                 if (isset($success)) {
                     ?>
                     <div class="alert alert-success">
-                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo $success; ?> !
+                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlspecialchars($success); ?> !
                     </div>
                     <?php
                 }
@@ -84,7 +80,7 @@ if (isset($_POST["submit"])) {
                 if (isset($warning)) {
                     ?>
                     <div class="alert alert-warning">
-                        <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo $warning; ?> !
+                        <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlspecialchars($warning); ?> !
                     </div>
                     <?php
                 }
@@ -124,7 +120,7 @@ if (isset($_POST["submit"])) {
     </div>
 </div>
 
-<script type="text/javascript" src="inc/bootstrap.min.js"></script>
-<script type="application/javascript" src="inc/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
 </body>
 </html>

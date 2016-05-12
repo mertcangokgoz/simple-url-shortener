@@ -5,9 +5,13 @@
  * Date: 10.05.2016
  * Time: 16:14
  */
+
+//hata kodlarının gözükmesini engelleyelim
+ini_set('display_errors', 0);
+
 $dbhost = "localhost";
 $dbname = "test";
-$dbuser = "root";
+$dbuser = "mertcan";
 $dbpswd = "muratcan55";
 
 //Server Type
