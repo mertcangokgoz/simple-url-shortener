@@ -19,6 +19,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
     $password = cleandata($_POST["sifre"]);
     $password2 = cleandata($_POST["sifre_tekrar"]);
     $email = cleandata($_POST["mail"]);
+    $code = md5(uniqid(rand()));
 
     if (empty($email) || empty($user) || empty($password) || empty($password2) || empty($_POST['form_token'])) {
         $error = 'Lütfen eksik alanları doldurunuz.';
@@ -47,11 +48,12 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
             } elseif ($password != $password2) {
                 $error = "Şifre uyuşmuyor.";
             } else {
-                $save = $db->prepare("INSERT INTO members(username, password, mail) VALUES (:user,:password,:email)");
+                $save = $db->prepare("INSERT INTO members(username, password, mail,token) VALUES (:user,:password,:email,:token)");
                 $save->execute(array(
                     ":user" => $user,
                     ":password" => $password_md,
-                    ":email" => $email
+                    ":email" => $email,
+                    ":token" => $code
                 ));
                 if ($save) {
                     $success = "Başarılı bir şekilde üye oldunuz yönlendiriliyorsunuz.";

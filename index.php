@@ -31,7 +31,7 @@ if (!empty($_GET['url'])) {
 <!DOCTYPE html>
 <html lang="TR" class="no-js" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>0w1 &mdash; URL Shortener Services</title>
+    <title>0w1 &mdash; URL Kısaltma Servisi</title>
 
     <!-- Google Main Meta -->
     <meta charset='utf-8'>
@@ -44,21 +44,10 @@ if (!empty($_GET['url'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Language" content="tr">
     <meta name="author" content="Mertcan GOKGOZ, admin@mertcangokgoz.com, https://mertcangokgoz.com/"/>
-
-    <!-- Jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
-    <script src="inc/jquery-migrate-1.3.0.min.js"></script>
-
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-    <!-- Costum Javascript code -->
     <link rel="stylesheet" href="inc/costum.css">
-
-    <!-- Costum Javascript code -->
     <script language="JavaScript">
         function kapat() {
             document.getElementsByClassName("result")[0].innerHTML = ""
@@ -99,7 +88,7 @@ if (!empty($_GET['url'])) {
     <div class="row">
         <div class=" col-md-10 ">
             <h1 class='title text-center'>0w1</h1>
-            <p class='desc text-center'>URL Shortener Service</p>
+            <p class='desc text-center'>URL Kısaltma Servisi</p>
         </div>
         <br>
         <div

@@ -113,7 +113,8 @@ if (isset($_POST["submit"])) {
                     </button>
                 </div>
                 <div class="login-register">
-                    <a href="register.php">Kayıt OL</a>
+                    <a href="register.php">Kayıt OL</a> <span> | </span>
+                    <a href="fpass.php">Şifremi Unuttum</a>
                 </div>
             </form>
         </div>
