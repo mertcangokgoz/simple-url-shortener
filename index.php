@@ -12,7 +12,9 @@ require('user_security.php');
 
 //Kullanıcının kontrolü yapılıyor
 if (!$giris_yapilmis) {
-    echo "Yetkisiz Erişim Yönlendiriliyorsunuz.";
+    echo "Yetkisiz Erisim Yonlendiriliyorsunuz.";
+    echo "<br />";
+    echo "<a href='login.php'>Giris Yap</a>";
     exit;
 }
 
