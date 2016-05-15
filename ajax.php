@@ -23,7 +23,6 @@ if (isset($_POST['url']) && preg_match_all($result, $_POST['url'])) {
     if ($stmt->rowCount() == 1) {
         echo json_encode(array("url" => $server_name . $row["url_short"]));
     } else if (empty(trim($_POST["alias"]))) {
-<<<<<<< HEAD
         $short = substr(md5(rand()), 0, 6);
         $stmt = $db->prepare("INSERT INTO urls (url_link, url_short, url_date, username) VALUES(:url_link,:url_short,:url_data,:username)");
         $stmt->execute(array(':url_link' => urlencode(htmlspecialchars(trim($_POST["url"]))), ':url_short' => $short, ':url_data' => date('d.m.Y H:i:s'), ':username' => htmlspecialchars(trim($_SESSION['username']))));
@@ -31,15 +30,6 @@ if (isset($_POST['url']) && preg_match_all($result, $_POST['url'])) {
     } else {
         $stmt = $db->prepare("INSERT INTO urls (url_link, url_short, url_date, username) VALUES(:url_link,:url_short,:url_data,:username)");
         $stmt->execute(array(':url_link' => urlencode(htmlspecialchars(trim($_POST['url']))), ':url_short' => $_POST["alias"], ':url_data' => date('d.m.Y H:i:s'), ':username' => htmlspecialchars(trim($_SESSION['username']))));
-=======
-        $short = substr(bin2hex(openssl_random_pseudo_bytes(6, $short)), 3, 5);
-        $stmt = $db->prepare("INSERT INTO urls (url_link, url_short, url_date) VALUES(:url_link,:url_short,:url_data)");
-        $stmt->execute(array(':url_link' => urlencode(htmlspecialchars(trim($_POST["url"]))), ':url_short' => $short, ':url_data' => time()));
-        echo json_encode(array("url" => $server_name . $short));
-    } else {
-        $stmt = $db->prepare("INSERT INTO urls (url_link, url_short, url_date) VALUES(:url_link,:url_short,:url_data)");
-        $stmt->execute(array(':url_link' => urlencode(htmlspecialchars(trim($_POST['url']))), ':url_short' => $_POST["alias"], ':url_data' => time()));
->>>>>>> d1cbb0a7a14ce489dcf082f4618f5499740cd96c
         echo json_encode(array("url" => $server_name . $alias_data));
     }
 }
