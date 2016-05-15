@@ -15,7 +15,7 @@ $uye = false;
 //Giriş yapmamış kullanıcıyı giriş yapması için yönlendiriyoruz.
 if(!isset($_SESSION['username']))
 {
-    header("Refresh:2; url=login.php");
+    header("Refresh:2; url=../../login.php");
 }
 
 # kontrol ederek bilgileri dogrulayalim
@@ -28,6 +28,7 @@ if (!empty($_SESSION["giris"]) && !empty($_SESSION["username"])) {
     if ($stmt->rowCount() == 1) {
         # anahtar kontrol
         if ($_SESSION["giris"] == md5("kullanic_oturum_" . md5($uye['password']) . "_ds785667f5e67w423yjgty")) {
+            session_regenerate_id();
             $giris_yapilmis = true;
         } else {
             # giris yanlis. $uye'yi silelim

@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `members`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `members` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
+  `username` varchar(20) NOT NULL,
   `password` varchar(60) NOT NULL,
   `mail` varchar(60) NOT NULL,
   `token` varchar(100) DEFAULT NULL,
@@ -52,7 +52,8 @@ CREATE TABLE `urls` (
   `url_id` int(11) NOT NULL AUTO_INCREMENT,
   `url_link` varchar(255) NOT NULL,
   `url_short` varchar(6) NOT NULL,
-  `url_date` int(10) NOT NULL,
+  `url_date` varchar(20) NOT NULL,
+  `username` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`url_id`),
   UNIQUE KEY `url_id` (`url_id`,`url_short`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -76,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-12 21:25:56
+-- Dump completed on 2016-05-15  2:26:12

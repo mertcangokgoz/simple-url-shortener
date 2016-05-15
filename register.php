@@ -14,76 +14,78 @@ $form_token = md5(uniqid('auth', true));
 $_SESSION['form_token'] = $form_token;
 
 if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) {
-
     $user = cleandata($_POST["kullanici_adi"]);
     $password = cleandata($_POST["sifre"]);
     $password2 = cleandata($_POST["sifre_tekrar"]);
     $email = cleandata($_POST["mail"]);
+    $recaptcha = $_POST['g-recaptcha-response'];
+    $google_url = "https://www.google.com/recaptcha/api/siteverify";
+    $secret = "6Led9B8TAAAAALJQVgo5G8cNTkq9mwkXL_yD3j0o";
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $url = $google_url . "?secret=" . $secret . "&response=" . $recaptcha . "&remoteip=" . $ip;
+    $res = curt_kullan($url);
+    $res = json_decode($res, true);
     $code = md5(uniqid(rand()));
-
-    if (empty($email) || empty($user) || empty($password) || empty($password2) || empty($_POST['form_token'])) {
-        $error = 'Lütfen eksik alanları doldurunuz.';
-    } else {
-        $password_md = password_hash($password, PASSWORD_DEFAULT);
-        //üyelik kontrol yapısı
-        $stmt = $db->prepare("SELECT username, mail FROM members WHERE username=:uname OR mail=:umail");
-        $stmt->execute(array(
-            ':uname' => $user,
-            ':umail' => $email
-        ));
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row['username'] == $user) {
-            $error = "Kullanıcı Adı Kullanılıyor !";
-        } elseif ($row['mail'] == $email) {
-            $error = "Mail Adresi Kullanılıyor. !";
+    if ($res['success']) {
+        if (empty($email) || empty($user) || empty($password) || empty($password2) || empty($_POST['form_token'])) {
+            $error = 'Lütfen eksik alanları doldurunuz.';
         } else {
-            if (strlen($user) > 20 || strlen($user) < 6) {
-                $error = 'Kullanıcı Adı maximum 20 minimum 6 karakterden oluşmalıdır.';
-            } elseif (strlen($password) < 6) {
-                $error = 'Şifre minimum 6 haneli olmalıdır.';
-            } elseif (ctype_alnum($user) != true) {
-                $error = "Kullanıcı adı alfanümerik olmalı";
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error = "Lütfen geçerli bir email adresi giriniz";
-            } elseif ($password != $password2) {
-                $error = "Şifre uyuşmuyor.";
+            $password_md = password_hash($password, PASSWORD_DEFAULT);
+            //üyelik kontrol yapısı
+            $stmt = $db->prepare("SELECT username, mail FROM members WHERE username=:uname OR mail=:umail");
+            $stmt->execute(array(
+                ':uname' => $user,
+                ':umail' => $email
+            ));
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row['username'] == $user) {
+                $error = "Kullanıcı Adı Kullanılıyor !";
+            } elseif ($row['mail'] == $email) {
+                $error = "Mail Adresi Kullanılıyor. !";
             } else {
-                $save = $db->prepare("INSERT INTO members(username, password, mail,token) VALUES (:user,:password,:email,:token)");
-                $save->execute(array(
-                    ":user" => $user,
-                    ":password" => $password_md,
-                    ":email" => $email,
-                    ":token" => $code
-                ));
-                if ($save) {
-                    $success = "Başarılı bir şekilde üye oldunuz yönlendiriliyorsunuz.";
-                    header("Refresh:3; url=login.php");
+                if (strlen($user) > 20 || strlen($user) < 6) {
+                    $error = 'Kullanıcı Adı maximum 20 minimum 6 karakterden oluşmalıdır.';
+                } elseif (strlen($password) < 6) {
+                    $error = 'Şifre minimum 6 haneli olmalıdır.';
+                } elseif (ctype_alnum($user) != true) {
+                    $error = "Kullanıcı adı alfanümerik olmalı";
+                } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $error = "Lütfen geçerli bir email adresi giriniz";
+                } elseif ($password != $password2) {
+                    $error = "Şifre uyuşmuyor.";
                 } else {
-                    $error = "Kayıt başarısız Yönlendiriliyorsunuz.";
-                    header("Location: register.php");
+                    $save = $db->prepare("INSERT INTO members(username, password, mail,token) VALUES (:user,:password,:email,:token)");
+                    $save->execute(array(
+                        ":user" => $user,
+                        ":password" => $password_md,
+                        ":email" => $email,
+                        ":token" => $code
+                    ));
+                    if ($save) {
+                        $success = "Başarılı bir şekilde üye oldunuz yönlendiriliyorsunuz.";
+                        header("Refresh:3; url=login.php");
+                    } else {
+                        $error = "Kayıt başarısız Yönlendiriliyorsunuz.";
+                        header("Location: register.php");
+                    }
                 }
             }
         }
+    }else{
+        $error = "Lütfen bot olmadığınızı doğrulayın.";
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
-    <!-- Website CSS style -->
     <link rel="stylesheet" type="text/css" href="inc/main.css">
-
-    <!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-
-    <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-
     <title>Kayıt ol</title>
 </head>
 <body>
@@ -102,7 +104,8 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                     if (isset($error)) {
                         ?>
                         <div class="alert alert-danger">
-                            <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlspecialchars($error); ?> !
+                            <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlentities($error); ?>
+                            !
                         </div>
                         <?php
                     }
@@ -151,6 +154,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                 </div>
                 <input type="hidden" name="form_token" value="<?php echo $form_token; ?>"/>
                 <div class="form-group">
+                    <div class="g-recaptcha" data-sitekey="6Led9B8TAAAAANHFQz_qSAGQdpj56epsZk-iTufN"></div>
                     <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block login-button">Kayıt Ol
                     </button>
                 </div>
@@ -158,7 +162,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                 if (isset($success)) {
                     ?>
                     <div class="alert alert-success">
-                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlspecialchars($success); ?> !
+                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlentities($success); ?> !
                     </div>
                     <?php
                 }
@@ -173,5 +177,6 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
 
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

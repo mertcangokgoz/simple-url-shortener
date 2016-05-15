@@ -48,7 +48,7 @@ class DoSortUrl:
         window = Gtk.Window()
         window.set_size_request(600, 100)
         window.set_resizable(False)
-        window.set_title("0w1.xyz URL Shortener")
+        window.set_title("URL Shortener")
         window.connect("delete_event", Gtk.main_quit)
 
         vbox = Gtk.VBox(False, 0)
@@ -68,7 +68,7 @@ class DoSortUrl:
         vbox.add(hbox)
         hbox.show()
 
-        button = Gtk.Button(label="Click For Short URL")
+        button = Gtk.Button(label="URL Kısalt")
         button.connect("clicked", lambda w: entry_ret.set_text(getSite(entry.get_text())))
         vbox.pack_start(button, True, True, 0)
         button.grab_default()

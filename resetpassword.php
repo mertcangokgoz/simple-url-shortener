@@ -60,7 +60,7 @@ if (isset($_GET['id']) && isset($_GET['code'])) {
 <div class="container">
     <div class="row main">
         <div class="main-login main-center">
-            <strong>Merhaba !</strong> <?php echo $rows['username'] ?> Sanırım Şifreni unuttun :)
+            <strong>Merhaba !</strong> <?php echo htmlentities($rows['username']) ?> Sanırım Şifreni unuttun :)
             <form class="form-signin" method="post">
                 <hr/>
                 <?php
@@ -70,17 +70,17 @@ if (isset($_GET['id']) && isset($_GET['code'])) {
                 ?>
                 <label for="pass" class="cols-sm-2 control-label">Şifre</label>
                 <div class="cols-sm-10">
-                <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock fa-lg"></i></span>
-                <input type="password" class="form-control" placeholder="Yeni Şifreniz" name="pass" required/>
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg"></i></span>
+                        <input type="password" class="form-control" placeholder="Yeni Şifreniz" name="pass" required/>
+                    </div>
                 </div> <br/>
                 <label for="confirm-pass" class="cols-sm-2 control-label">Şifre Tekrar</label>
                 <div class="cols-sm-10">
-                <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock fa-lg"></i></span>
-                <input type="password" class="form-control" placeholder="Yeni Şifre Tekrarı" name="confirm-pass" required/>
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg"></i></span>
+                        <input type="password" class="form-control" placeholder="Yeni Şifre Tekrarı" name="confirm-pass" required/>
+                    </div>
                 </div>
                 <hr/>
                 <button class="btn btn-primary btn-lg btn-block login-button" type="submit" name="btn-reset-pass">Şifreyi Sıfırla

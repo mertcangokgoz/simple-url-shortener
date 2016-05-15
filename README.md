@@ -1,22 +1,33 @@
 Simple URL Shortener
 =========
 
-URL Shortener using Php and MySQL.
+**Tik atılan hatalar çözülmüş olan hatalardır.** Çözülmeyen hatalarda en kısa sürede çözülüp geliştirilmeye devam edilecektir.
 
-[Demo Web Site](https://troya.ml/)
+### İsteklerinizi özgürce yazabilirsiniz
 
-#Using
+## Buglar
 
-* Apache
-* MySQL
-* PHP
+- [ ] Hatalı URL boş dönmesi
+- [x] Karakter Kontrol mekanizması
+- [x] URL Kontrol mekanizması(Curl aracılığı ile)
+- [x] Türkçe karakterli URL sorunu
+- [ ] Güvenlik güncellemeleri(XSS,SQL İnj ve Query String)
+- [ ] Tasarımda iyileştirmeler
+- [x] Çalışmayan ikonlar
 
-#Graphical Program
+## Eklenecek Özellikler
 
-![ss.png](ss.png)
+- [ ] İP bazlı URL sayacı
+- [ ] Özelleştirilebilir link yönlendirme sayfası
+- [ ] Reklam alanları
+- [ ] Admin panel (Link,reklam ve özelleştirilebilir sayfa düzenleyebilme)
+- [x] Üyelik ve Login sayfaları için Captcha koruması
+- [x] Şifre Sıfırlama özelliği
+- [x] Kullanıcı Paneli
 
----
+Eklenen yeni özellikler:
 
-![ss1.png](ss1.png)
+- [x] Site istatistikleri
+- [X] Kullanıcı panelinde geçmiş yapıştırmalar.
 
-##[How to Install LAMP Stack](https://mertcangokgoz.com/ubuntu-15-04-uzerine-lamp-kurulumu/)
+##[LAMP Kurulumu](https://mertcangokgoz.com/ubuntu-15-04-uzerine-lamp-kurulumu/)

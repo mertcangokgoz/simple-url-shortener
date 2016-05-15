@@ -45,6 +45,6 @@ $success = "Başarılı bir şekilde çıkış yaptınız."
     </body>
     </html>
 <?php
-header("Refresh:3; url=login.php");
+header("Refresh:3; url=index.php");
 exit;
 ?>

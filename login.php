@@ -18,20 +18,31 @@ if (isset($_SESSION['username'])) {
 if (isset($_POST["submit"])) {
     $kadi = cleandata($_POST["username"]);
     $sifre = cleandata($_POST["password"]);
+    $recaptcha = $_POST['g-recaptcha-response'];
+    $google_url = "https://www.google.com/recaptcha/api/siteverify";
+    $secret = "6Led9B8TAAAAALJQVgo5G8cNTkq9mwkXL_yD3j0o";
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $url = $google_url . "?secret=" . $secret . "&response=" . $recaptcha . "&remoteip=" . $ip;
+    $res = curt_kullan($url);
+    $res = json_decode($res, true);
     $stmt = $db->prepare("select * from members where username = :kadi");
     $stmt->execute(array(":kadi" => $kadi));
     $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($stmt->rowCount() == 1 and password_verify($sifre, $userRow['password'])) {
-        //Giriş yapacak olan kullanıcının oturum bilgilerini kayıt ediyoruz.
-        $_SESSION["giris"] = md5("kullanic_oturum_" . md5($userRow['password']) . "_ds785667f5e67w423yjgty");
-        $_SESSION["username"] = $kadi;
-        //Kullanıcıya çerez tanımlaması yapıyoruz.
-        setcookie("username", $kadi, time() + 3600);
-        setcookie("password", md5($sifre), time() + 3600);
-        $success = "Başarılı bir şekilde giriş yaptınız Yönlendiriliyorsunuz...";
-        header("Refresh:3; url=index.php");
-    } else {
-        $error = "Giriş Yapılamadı Kullanıcı Adı veya şifre yanlış";
+    if ($res['success']) {
+        if ($stmt->rowCount() == 1 and password_verify($sifre, $userRow['password'])) {
+            //Giriş yapacak olan kullanıcının oturum bilgilerini kayıt ediyoruz.
+            $_SESSION["giris"] = md5("kullanic_oturum_" . md5($userRow['password']) . "_ds785667f5e67w423yjgty");
+            $_SESSION["username"] = $kadi;
+            //Kullanıcıya çerez tanımlaması yapıyoruz.
+            setcookie("username", $kadi, time() + 3600);
+            setcookie("password", md5($sifre), time() + 3600);
+            $success = "Başarılı bir şekilde giriş yaptınız Yönlendiriliyorsunuz...";
+            header("Refresh:3; url=index.php");
+        } else {
+            $error = "Giriş Yapılamadı Kullanıcı Adı veya şifre yanlış";
+        }
+    }else{
+        $error = "Lütfen bot olmadığınızı doğrulayın.";
     }
 }
 ?>
@@ -44,7 +55,6 @@ if (isset($_POST["submit"])) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-
     <title>Kullanıcı Girişi</title>
 </head>
 <body>
@@ -62,7 +72,7 @@ if (isset($_POST["submit"])) {
                 if (isset($error)) {
                     ?>
                     <div class="alert alert-danger">
-                        <i class="glyphicon glyphicon-remove"></i> &nbsp; <?php echo htmlspecialchars($error); ?> !
+                        <i class="glyphicon glyphicon-remove"></i> &nbsp; <?php echo htmlentities($error); ?> !
                     </div>
                     <?php
                 }
@@ -71,7 +81,7 @@ if (isset($_POST["submit"])) {
                 if (isset($success)) {
                     ?>
                     <div class="alert alert-success">
-                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlspecialchars($success); ?> !
+                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlentities($success); ?> !
                     </div>
                     <?php
                 }
@@ -80,7 +90,7 @@ if (isset($_POST["submit"])) {
                 if (isset($warning)) {
                     ?>
                     <div class="alert alert-warning">
-                        <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlspecialchars($warning); ?> !
+                        <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlentities($warning); ?> !
                     </div>
                     <?php
                 }
@@ -108,6 +118,7 @@ if (isset($_POST["submit"])) {
                 </div>
 
                 <div class="form-group ">
+                    <div class="g-recaptcha" data-sitekey="6Led9B8TAAAAANHFQz_qSAGQdpj56epsZk-iTufN"></div>
                     <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block login-button">Giriş
                         Yap
                     </button>
@@ -123,5 +134,6 @@ if (isset($_POST["submit"])) {
 
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

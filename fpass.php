@@ -26,7 +26,7 @@ if(isset($_POST['btn-submit']))
 				   ";
 		$subject = "Şifre Sıfırlama İsteği";
 		
-		$user->send_mail($email,$message,$subject);
+		send_mail($email,$message,$subject);
 		
 		$msg = "<div class='alert alert-success'>
 					<button class='close' data-dismiss='alert'>&times;</button>
@@ -59,7 +59,7 @@ if(isset($_POST['btn-submit']))
         <div class="row main">
             <div class="main-login main-center">
       <form class="form-signin" method="post">
-        <h2 class="form-signin-heading">Şifremi Unuttum</h2><hr />
+        <h2 class="form-signin-heading">Şifreni mi Unuttun</h2><hr />
         
         	<?php
 			if(isset($msg))
