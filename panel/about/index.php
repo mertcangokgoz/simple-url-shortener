@@ -84,7 +84,7 @@ if (!$giris_yapilmis) {
                     <li>
                         <a href="/panel/about/"><i class="fa fa-info fa-fw"></i> Hakkımızda</a>
                     </li>
-                     <li>
+                    <li>
                         <a href="/panel/contact/"><i class="fa fa-phone fa-fw"></i> İletişim</a>
                     </li>
                 </ul>
@@ -95,15 +95,20 @@ if (!$giris_yapilmis) {
     </nav>
 
     <div id="page-wrapper">
-
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Hakkımızda</h1>
             </div>
+             <div class="col-lg-12">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eu bibendum nunc. Aenean sed diam a sapien tincidunt porta eget suscipit lorem. Quisque quis ipsum nulla. Pellentesque ornare sem vitae velit euismod, in eleifend arcu pretium. Praesent ac diam in est porta vehicula a eu sapien. Suspendisse eget mi sit amet elit cursus egestas. Suspendisse nisl metus, varius quis scelerisque vitae, ultrices condimentum lorem. Nam non eros volutpat, blandit ipsum et, sollicitudin massa. Donec massa sem, imperdiet at viverra a, faucibus ultrices lectus. Maecenas sed nulla nulla. Integer porta, mi in viverra pellentesque, dolor neque venenatis dolor, at placerat ipsum justo sed est. Nunc tempus diam fringilla, sodales odio eu, aliquet nisi. Nullam vestibulum ac nisi vel ornare. Etiam ac urna eros. Sed rutrum ante in turpis pulvinar consequat. Cras quis aliquam mauris.
+
+Praesent libero augue, tristique vehicula dapibus in, pulvinar eget dolor. Donec rhoncus nunc finibus cursus hendrerit. Quisque arcu diam, ullamcorper sit amet vestibulum rutrum, ultricies nec tortor. Donec lectus elit, volutpat nec metus vitae, varius vehicula erat. Mauris lorem quam, bibendum eget lobortis id, hendrerit eget leo. Donec viverra ex eget urna porttitor, et convallis dolor laoreet. Vivamus nunc purus, viverra in erat in, placerat semper urna. Praesent cursus massa quis nunc dapibus, non aliquet eros lacinia. Donec vitae malesuada dui, et pulvinar ex. Proin ornare ultricies feugiat.
+
+Suspendisse in viverra metus, sed cursus mi. Vestibulum a pretium elit. Sed felis libero, varius ac nisi id, dictum accumsan mauris. Maecenas commodo elementum metus ut porttitor. Duis ac tempus velit, nec aliquet ligula. Suspendisse velit eros, volutpat a dapibus eget, dictum id lacus. Etiam semper elit sed dui scelerisque, nec volutpat eros varius. Vivamus eget tortor turpis. Vivamus porttitor dolor libero, eu efficitur nibh commodo sed. Sed in lacinia augue. Nam facilisis scelerisque diam, vitae pulvinar metus tincidunt id.
+                </p>
+            </div>
         </div>
-        <table class="table table-striped" id="dataTables-example">
-        </div>
-    <div class="row">
     </div>
 </div>
 </div>

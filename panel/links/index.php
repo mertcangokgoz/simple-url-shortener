@@ -150,8 +150,8 @@ if (isset($_GET["sil"])){
             <?php for( $i = 0; $i < count($row); $i++ ) : ?>
                 <tr>
                     <td scope="row"><?php echo $i+1; ?></td>
-                    <td><a href="<?php echo urldecode($row[$i]['url_link']); ?>"><?php echo urldecode($row[$i]['url_link']); ?></a></td>
-                    <td><a href="<?php echo $server_name . $row[$i]['url_short']; ?>"><?php echo $row[$i]['url_short']; ?></a></td>
+                    <td><a href="<?php echo urldecode($row[$i]['url_link']); ?>" target="_blank"><?php echo urldecode($row[$i]['url_link']); ?></a></td>
+                    <td><a href="<?php echo $server_name . $row[$i]['url_short']; ?>" target="_blank"><?php echo $row[$i]['url_short']; ?></a></td>
                     <td><?php echo $row[$i]['url_date']; ?></td>
                     <td><a href = "index.php?sil=<?php echo $row[$i]['url_id'] ?>" class="btn btn-danger" role = "button">Sil</a></td>
                 </tr>

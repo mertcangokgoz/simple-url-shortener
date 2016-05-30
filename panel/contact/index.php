@@ -11,6 +11,31 @@ if (!$giris_yapilmis) {
     exit;
 }
 
+//form güvenlik tokeni
+$form_token = md5(uniqid('auth', true));
+$_SESSION['form_token'] = $form_token;
+
+if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) {
+    $user = cleandata($_POST["name"]);
+    $email = cleandata($_POST["email"]);
+    $message = cleandata($_POST["message"]);
+    $token = cleandata($_POST['form_token']);
+    if (empty($user) || empty($email) || empty($message) || empty($token)) {
+        $error = 'Lütfen eksik alanları doldurunuz.';
+    } else {
+        $save = $db->prepare("INSERT INTO about(name, mail, message) VALUES (:name, :mail, :message)");
+        $save->execute(array(
+            ":name" => $user,
+            ":mail" => $email,
+            ":message" => $message
+        ));
+        if ($save) {
+            $success = "Mesajınız gönderildi.";
+        } else {
+            $error = "Mesaj Gönderilemedi.";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +52,6 @@ if (!$giris_yapilmis) {
     <link href="../../inc/timeline.css" rel="stylesheet">
     <link href="../../inc/panel.css" rel="stylesheet">
     <link href="../../inc/metisMenu.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/t/bs/dt-1.10.11/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/t/bs/dt-1.10.11/datatables.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -84,7 +107,7 @@ if (!$giris_yapilmis) {
                     <li>
                         <a href="/panel/about/"><i class="fa fa-info fa-fw"></i> Hakkımızda</a>
                     </li>
-                     <li>
+                    <li>
                         <a href="/panel/contact/"><i class="fa fa-phone fa-fw"></i> İletişim</a>
                     </li>
                 </ul>
@@ -97,11 +120,62 @@ if (!$giris_yapilmis) {
     <div id="page-wrapper">
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <h1 class="page-header">İletişim</h1>
+                <form class="form-horizontal" role="form" method="post" action="">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">Adınız</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Adınız" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">Mail Adresiniz</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="example@domain.com" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="col-sm-2 control-label">Mesajınız</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="4" name="message"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="g-recaptcha" data-sitekey="6Led9B8TAAAAANHFQz_qSAGQdpj56epsZk-iTufN"></div>
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <input id="submit" name="submit" type="submit" value="Gönder" class="btn btn-primary">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <?php
+                            if (isset($error)) {
+                                ?>
+                                <div class="alert alert-danger">
+                                    <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlentities($error); ?>
+                                    !
+                                </div>
+                                <?php
+                            }
+                            ?>
+
+                            <?php
+                            if (isset($success)) {
+                                ?>
+                                <div class="alert alert-success">
+                                    <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlentities($success); ?> !
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <input type="hidden" name="form_token" value="<?php echo $form_token; ?>"/>
+                </form>
             </div>
         </div>
-        <div class="row">
+        <div class="col-lg-6">
         </div>
     </div>
 </div>

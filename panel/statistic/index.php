@@ -192,28 +192,15 @@ $avg = $query->rowCount() - $stmt->rowCount();
                         <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Oranlar
+                            Üye İstatistiği
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="flot-chart">
                                 <div class="flot-chart-content" id="flot-pie-chart"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                
-                                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Tarihsel Analiz
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart-multi"></div>
+                                <br>
+                                    *Anonim kullanıcılar hesaplanırken üye olmayan kullanıcılar tarafından kısaltılan her benzersiz link farklı kullanıcılar tarafından kısaltılmış 
+                                    kabul edilmektedir.
                             </div>
                         </div>
                         <!-- /.panel-body -->
@@ -227,13 +214,10 @@ $avg = $query->rowCount() - $stmt->rowCount();
 $(function() {
 
     var data = [{
-        label: "Kayıtlı Kullanıcı",
-        data: '<?php echo $avg ?>'
-    }, {
-        label: "Anonim Kullanıcı",
+        label: "Anonim Kullanıcı Sayısı*",
         data: '<?php echo $stmt->rowCount(); ?>'
     }, {
-        label: "Toplam Üye Sayısı",
+        label: "Kayıtlı Üye Sayısı",
         data: '<?php echo $user->rowCount(); ?>'
     }];
 
@@ -253,8 +237,8 @@ $(function() {
                 x: 20,
                 y: 0
             },
-            defaultTheme: false
-        }
+            defaultTheme: true
+            }
     });
 
 });

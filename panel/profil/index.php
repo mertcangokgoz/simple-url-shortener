@@ -10,11 +10,34 @@ if (!$giris_yapilmis) {
     print 'Bu sayfa üyelere özeldir! Lütfen giriş yapın!';
     exit;
 }
+//update members set password = :password where username = :username
 
+//form güvenlik tokeni
+$form_token = md5(uniqid('auth', true));
+$_SESSION['form_token'] = $form_token;
 
-
-
+if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) {
+    $password1 = cleandata($_POST["password1"]);
+    $password2 = cleandata($_POST["password2"]);
+    $token = cleandata($_POST['form_token']);
+    $password1_md = password_hash($password2, PASSWORD_DEFAULT);
+    if (empty($password1) || empty($password2) || empty($token)) {
+        $error = 'Lütfen eksik alanları doldurunuz.';
+    } else {
+        $save = $db->prepare("UPDATE members SET password = :password WHERE username = :username");
+        $save->execute(array(
+            ":password" => $password1_md,
+            ":username" => $_SESSION['username']
+        ));
+        if ($save) {
+            $success = "Şifreniz Başarılı bir şekilde değişti";
+        } else {
+            $error = "Şifreniz Değiştirilemedi.";
+        }
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +61,66 @@ if (!$giris_yapilmis) {
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $("input[type=password]").keyup(function(){
+                var ucase = new RegExp("[A-Z]+");
+                var lcase = new RegExp("[a-z]+");
+                var num = new RegExp("[0-9]+");
+
+                if($("#password1").val().length >= 6){
+                    $("#8char").removeClass("glyphicon-remove");
+                    $("#8char").addClass("glyphicon-ok");
+                    $("#8char").css("color","#00A41E");
+                }else{
+                    $("#8char").removeClass("glyphicon-ok");
+                    $("#8char").addClass("glyphicon-remove");
+                    $("#8char").css("color","#FF0004");
+                }
+
+                if(ucase.test($("#password1").val())){
+                    $("#ucase").removeClass("glyphicon-remove");
+                    $("#ucase").addClass("glyphicon-ok");
+                    $("#ucase").css("color","#00A41E");
+                }else{
+                    $("#ucase").removeClass("glyphicon-ok");
+                    $("#ucase").addClass("glyphicon-remove");
+                    $("#ucase").css("color","#FF0004");
+                }
+
+                if(lcase.test($("#password1").val())){
+                    $("#lcase").removeClass("glyphicon-remove");
+                    $("#lcase").addClass("glyphicon-ok");
+                    $("#lcase").css("color","#00A41E");
+                }else{
+                    $("#lcase").removeClass("glyphicon-ok");
+                    $("#lcase").addClass("glyphicon-remove");
+                    $("#lcase").css("color","#FF0004");
+                }
+
+                if(num.test($("#password1").val())){
+                    $("#num").removeClass("glyphicon-remove");
+                    $("#num").addClass("glyphicon-ok");
+                    $("#num").css("color","#00A41E");
+                }else{
+                    $("#num").removeClass("glyphicon-ok");
+                    $("#num").addClass("glyphicon-remove");
+                    $("#num").css("color","#FF0004");
+                }
+
+                if($("#password1").val() == $("#password2").val() && $("#password1").val() != "" && $("#password2").val() != "" ){
+                    $("#pwmatch").removeClass("glyphicon-remove");
+                    $("#pwmatch").addClass("glyphicon-ok");
+                    $("#pwmatch").css("color","#00A41E");
+                }else{
+                    $("#pwmatch").removeClass("glyphicon-ok");
+                    $("#pwmatch").addClass("glyphicon-remove");
+                    $("#pwmatch").css("color","#FF0004");
+                }
+
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -87,7 +170,7 @@ if (!$giris_yapilmis) {
                     <li>
                         <a href="/panel/about/"><i class="fa fa-info fa-fw"></i> Hakkımızda</a>
                     </li>
-                     <li>
+                    <li>
                         <a href="/panel/contact/"><i class="fa fa-phone fa-fw"></i> İletişim</a>
                     </li>
                 </ul>
@@ -100,14 +183,60 @@ if (!$giris_yapilmis) {
     <div id="page-wrapper">
 
         <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Profil</h1>
-            </div>
         </div>
-        <table class="table table-striped" id="dataTables-example">
+        <div class="col-lg-6">
+            <h1 class="page-header">Şifre Değiştir</h1>
+            <form method="post" id="passwordForm" name="form" action="">
+                <input type="password" class="input-lg form-control" name="password1" id="password1" placeholder="Yeni Şifre" autocomplete="off">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span id="8char" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> En az 6 Karakter Olmalı<br>
+                        <span id="ucase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir büyük harf içermeli
+                    </div>
+                    <div class="col-sm-6">
+                        <span id="lcase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir küçük harf içermeli<br>
+                        <span id="num" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir sayı içermeli
+                    </div>
+                </div>
+                <input type="password" class="input-lg form-control" name="password2" id="password2" placeholder="Şifre Tekrar" autocomplete="off">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span id="pwmatch" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Şifre Uyuştu
+                    </div>
+                </div>
+                <input type="submit" class="col-xs-12 btn btn-primary btn-load btn-lg" name="submit" data-loading-text="Changing Password..." value="Change Password">
+                <input type="hidden" name="form_token" value="<?php echo $form_token; ?>"/>
+            </form>
+            <br>
+            <br>
+            <br>
+            <?php
+            if (isset($error)) {
+                ?>
+                <div class="alert alert-danger">
+                    <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlentities($error); ?>
+                    !
+                </div>
+                <?php
+            }
+            ?>
+
+            <?php
+            if (isset($success)) {
+                ?>
+                <div class="alert alert-success">
+                    <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlentities($success); ?> !
+                </div>
+                <?php
+            }
+            ?>
         </div>
-    <div class="row">
     </div>
+</div>
+</div>
+
+<div class="row">
+</div>
 </div>
 </div>
 <script src="../../inc/sb-admin-2.js"></script>

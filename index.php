@@ -26,24 +26,20 @@ session_start()
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="inc/costum.css">
     <script language="JavaScript">
-        function kapat() {
-            document.getElementsByClassName("result")[0].innerHTML = ""
-        }
         $(document).ready(function () {
             $("#send").click(function () {
                 $('.alert').remove();
                 var check = document.getElementById('longurl').value;
-                if (check) {
+                var MatcUrl = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+                if (MatcUrl.test(check)) {
                     $.ajax({
                         type: "POST",
                         url: "ajax.php",
                         data: $("#shortener").serialize(),
                         success: function (data) {
                             var json = JSON.parse(data);
-                            if (document.getElementsByClassName("result")[0].innerHTML.indexOf("input") == -1) {
-                                $('.result').append('<input type="text" onclick="this.select();" name="url" class="form-control" value="' + json.url + '"> \
-                                <button class="btn btn-success" onclick="kapat();">Kapat</button>');
-                            }
+                                $('.result').html('');
+                                $('.result').html('<input type="text" name="url" class="form-control" value="' + json.url + '">');
                         }
                     });
                 } else {
@@ -64,7 +60,7 @@ session_start()
 <div class="container">
     <div class="row">
         <div class=" col-md-10 ">
-            <h1 class='title text-center'>0w1</h1>
+            <h1 class='title text-center'>MER</h1>
             <p class='desc text-center'>URL Kısaltma Servisi</p>
         </div>
         <br>
@@ -96,6 +92,7 @@ session_start()
         <div class="row">
             <div class="col-md-6 center">
                 <div class="result">
+                    
                 </div>
             </div>
         </div>

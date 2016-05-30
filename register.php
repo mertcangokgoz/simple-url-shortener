@@ -18,6 +18,8 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
     $password = cleandata($_POST["sifre"]);
     $password2 = cleandata($_POST["sifre_tekrar"]);
     $email = cleandata($_POST["mail"]);
+    $token = cleandata($_POST['form_token']);
+    //Google Captcha Api Response
     $recaptcha = $_POST['g-recaptcha-response'];
     $google_url = "https://www.google.com/recaptcha/api/siteverify";
     $secret = "6Led9B8TAAAAALJQVgo5G8cNTkq9mwkXL_yD3j0o";
@@ -26,8 +28,9 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
     $res = curt_kullan($url);
     $res = json_decode($res, true);
     $code = md5(uniqid(rand()));
+    //Captcha Sonrası güvenlik kontrolleri
     if ($res['success']) {
-        if (empty($email) || empty($user) || empty($password) || empty($password2) || empty($_POST['form_token'])) {
+        if (empty($email) || empty($user) || empty($password) || empty($password2) || empty($token)) {
             $error = 'Lütfen eksik alanları doldurunuz.';
         } else {
             $password_md = password_hash($password, PASSWORD_DEFAULT);
@@ -82,6 +85,8 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="inc/main.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
@@ -106,6 +111,16 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                         <div class="alert alert-danger">
                             <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo htmlentities($error); ?>
                             !
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    
+                    <?php
+                    if (isset($success)) {
+                        ?>
+                        <div class="alert alert-success">
+                            <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlentities($success); ?> !
                         </div>
                         <?php
                     }
@@ -158,15 +173,6 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                     <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block login-button">Kayıt Ol
                     </button>
                 </div>
-                <?php
-                if (isset($success)) {
-                    ?>
-                    <div class="alert alert-success">
-                        <i class="glyphicon glyphicon-ok"></i> &nbsp; <?php echo htmlentities($success); ?> !
-                    </div>
-                    <?php
-                }
-                ?>
                 <div class="login-register">
                     <a href="login.php">Giriş Yap</a>
                 </div>
@@ -174,9 +180,6 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
