@@ -11,8 +11,8 @@ Simple URL Shortener
 - [x] Karakter Kontrol mekanizması
 - [x] URL Kontrol mekanizması(Curl aracılığı ile)
 - [x] Türkçe karakterli URL sorunu
-- [ ] Güvenlik güncellemeleri(XSS,SQL İnj ve Query String)
-- [ ] Tasarımda iyileştirmeler
+- [x] Güvenlik güncellemeleri(XSS,SQL İnj ve Query String)
+- [x] Tasarımda iyileştirmeler
 - [x] Çalışmayan ikonlar
 
 ## Eklenecek Özellikler
@@ -28,6 +28,6 @@ Simple URL Shortener
 Eklenen yeni özellikler:
 
 - [x] Site istatistikleri
-- [X] Kullanıcı panelinde geçmiş yapıştırmalar.
+- [x] Kullanıcı panelinde geçmiş yapıştırmalar.
 
 ##[LAMP Kurulumu](https://mertcangokgoz.com/ubuntu-15-04-uzerine-lamp-kurulumu/)
