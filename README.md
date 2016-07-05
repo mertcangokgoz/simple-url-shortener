@@ -7,7 +7,7 @@ Simple URL Shortener
 
 ## Buglar
 
-- [ ] Hatalı URL boş dönmesi
+- [x] Hatalı URL boş dönmesi
 - [x] Karakter Kontrol mekanizması
 - [x] URL Kontrol mekanizması(Curl aracılığı ile)
 - [x] Türkçe karakterli URL sorunu
