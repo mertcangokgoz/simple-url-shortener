@@ -60,7 +60,7 @@ session_start()
 <div class="container">
     <div class="row">
         <div class=" col-md-10 ">
-            <h1 class='title text-center'>MER</h1>
+            <h1 class='title text-center'><a href="http://troya.ml">troya.ml</a></h1>
             <p class='desc text-center'>URL Kısaltma Servisi</p>
         </div>
         <br>
