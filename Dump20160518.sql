@@ -76,7 +76,7 @@ DROP TABLE IF EXISTS `urls`;
 CREATE TABLE `urls` (
   `url_id` int(11) NOT NULL AUTO_INCREMENT,
   `url_link` varchar(255) NOT NULL,
-  `url_short` varchar(6) NOT NULL,
+  `url_short` varchar(10) NOT NULL,
   `url_date` varchar(20) NOT NULL,
   `username` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`url_id`),
