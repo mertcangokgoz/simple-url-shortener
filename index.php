@@ -80,7 +80,7 @@ session_start()
                             <input type="text" name="url" id="longurl" class="form-control" placeholder="URL"
                                    aria-describedby="sizing-addon1" required>
                             <input type="text" name="alias" id="alias" class="form-control" placeholder="Özel Takma Ad"
-                                   aria-describedby="sizing-addon1" maxlength="6">
+                                   aria-describedby="sizing-addon1" maxlength="10">
                             <span class="input-group-btn">
                                  <button type="submit" id="send" class="btn btn-success">Kısalt</button>
                             </span>
