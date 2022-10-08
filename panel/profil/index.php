@@ -62,60 +62,60 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">
-        $( document ).ready(function() {
-            $("input[type=password]").keyup(function(){
+        $(document).ready(function () {
+            $("input[type=password]").keyup(function () {
                 var ucase = new RegExp("[A-Z]+");
                 var lcase = new RegExp("[a-z]+");
                 var num = new RegExp("[0-9]+");
 
-                if($("#password1").val().length >= 6){
+                if ($("#password1").val().length >= 6) {
                     $("#8char").removeClass("glyphicon-remove");
                     $("#8char").addClass("glyphicon-ok");
-                    $("#8char").css("color","#00A41E");
-                }else{
+                    $("#8char").css("color", "#00A41E");
+                } else {
                     $("#8char").removeClass("glyphicon-ok");
                     $("#8char").addClass("glyphicon-remove");
-                    $("#8char").css("color","#FF0004");
+                    $("#8char").css("color", "#FF0004");
                 }
 
-                if(ucase.test($("#password1").val())){
+                if (ucase.test($("#password1").val())) {
                     $("#ucase").removeClass("glyphicon-remove");
                     $("#ucase").addClass("glyphicon-ok");
-                    $("#ucase").css("color","#00A41E");
-                }else{
+                    $("#ucase").css("color", "#00A41E");
+                } else {
                     $("#ucase").removeClass("glyphicon-ok");
                     $("#ucase").addClass("glyphicon-remove");
-                    $("#ucase").css("color","#FF0004");
+                    $("#ucase").css("color", "#FF0004");
                 }
 
-                if(lcase.test($("#password1").val())){
+                if (lcase.test($("#password1").val())) {
                     $("#lcase").removeClass("glyphicon-remove");
                     $("#lcase").addClass("glyphicon-ok");
-                    $("#lcase").css("color","#00A41E");
-                }else{
+                    $("#lcase").css("color", "#00A41E");
+                } else {
                     $("#lcase").removeClass("glyphicon-ok");
                     $("#lcase").addClass("glyphicon-remove");
-                    $("#lcase").css("color","#FF0004");
+                    $("#lcase").css("color", "#FF0004");
                 }
 
-                if(num.test($("#password1").val())){
+                if (num.test($("#password1").val())) {
                     $("#num").removeClass("glyphicon-remove");
                     $("#num").addClass("glyphicon-ok");
-                    $("#num").css("color","#00A41E");
-                }else{
+                    $("#num").css("color", "#00A41E");
+                } else {
                     $("#num").removeClass("glyphicon-ok");
                     $("#num").addClass("glyphicon-remove");
-                    $("#num").css("color","#FF0004");
+                    $("#num").css("color", "#FF0004");
                 }
 
-                if($("#password1").val() == $("#password2").val() && $("#password1").val() != "" && $("#password2").val() != "" ){
+                if ($("#password1").val() == $("#password2").val() && $("#password1").val() != "" && $("#password2").val() != "") {
                     $("#pwmatch").removeClass("glyphicon-remove");
                     $("#pwmatch").addClass("glyphicon-ok");
-                    $("#pwmatch").css("color","#00A41E");
-                }else{
+                    $("#pwmatch").css("color", "#00A41E");
+                } else {
                     $("#pwmatch").removeClass("glyphicon-ok");
                     $("#pwmatch").addClass("glyphicon-remove");
-                    $("#pwmatch").css("color","#FF0004");
+                    $("#pwmatch").css("color", "#FF0004");
                 }
 
             });
@@ -170,9 +170,6 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                     <li>
                         <a href="/panel/about/"><i class="fa fa-info fa-fw"></i> Hakkımızda</a>
                     </li>
-                    <li>
-                        <a href="/panel/contact/"><i class="fa fa-phone fa-fw"></i> İletişim</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -187,24 +184,32 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
         <div class="col-lg-6">
             <h1 class="page-header">Şifre Değiştir</h1>
             <form method="post" id="passwordForm" name="form" action="">
-                <input type="password" class="input-lg form-control" name="password1" id="password1" placeholder="Yeni Şifre" autocomplete="off">
+                <input type="password" class="input-lg form-control" name="password1" id="password1"
+                       placeholder="Yeni Şifre" autocomplete="off">
                 <div class="row">
                     <div class="col-sm-6">
-                        <span id="8char" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> En az 6 Karakter Olmalı<br>
-                        <span id="ucase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir büyük harf içermeli
+                        <span id="8char" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> En az 6
+                        Karakter Olmalı<br>
+                        <span id="ucase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir büyük
+                        harf içermeli
                     </div>
                     <div class="col-sm-6">
-                        <span id="lcase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir küçük harf içermeli<br>
-                        <span id="num" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir sayı içermeli
+                        <span id="lcase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir küçük
+                        harf içermeli<br>
+                        <span id="num" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Bir sayı
+                        içermeli
                     </div>
                 </div>
-                <input type="password" class="input-lg form-control" name="password2" id="password2" placeholder="Şifre Tekrar" autocomplete="off">
+                <input type="password" class="input-lg form-control" name="password2" id="password2"
+                       placeholder="Şifre Tekrar" autocomplete="off">
                 <div class="row">
                     <div class="col-sm-12">
-                        <span id="pwmatch" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Şifre Uyuştu
+                        <span id="pwmatch" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Şifre
+                        Uyuştu
                     </div>
                 </div>
-                <input type="submit" class="col-xs-12 btn btn-primary btn-load btn-lg" name="submit" data-loading-text="Changing Password..." value="Change Password">
+                <input type="submit" class="col-xs-12 btn btn-primary btn-load btn-lg" name="submit"
+                       data-loading-text="Changing Password..." value="Change Password">
                 <input type="hidden" name="form_token" value="<?php echo $form_token; ?>"/>
             </form>
             <br>

@@ -1,4 +1,7 @@
 <?php
+
+use JetBrains\PhpStorm\NoReturn;
+
 /**
  * Created by PhpStorm.
  * User: mertcan
@@ -6,22 +9,24 @@
  * Time: 13:50
  */
 
-function redirect($url)
+#[NoReturn] function redirect($url): void
 {
-    header('HTTP/1.1 301 Moved Permanently');
+    header('HTTP/1.1 302 Temporary Redirect');
 	header('Location: ' . $url);
 	exit();
 }
 
-function cleandata($data)
+function cleandata($data): string
 {
     $data = trim($data);
     $data = htmlentities($data, ENT_QUOTES, 'utf-8' );
-    $data = stripslashes($data);
-    return $data;
+    return stripslashes($data);
 }
 
-function send_mail($email,$message,$subject)
+/**
+ * @throws phpmailerException
+ */
+function send_mail($email, $message, $subject): void
 {						
 	require 'mailer/PHPMailerAutoload.php';
 	$mail = new PHPMailer();
@@ -33,17 +38,18 @@ function send_mail($email,$message,$subject)
 	$mail->Host       = "smtp.live.com";      
 	$mail->Port       = 25;             
 	$mail->AddAddress($email);
-	$mail->Username="mertcan.gokgoz@hotmail.com";  
+	$mail->Username="CHANGE";
 	$mail->Password="";            
-	$mail->SetFrom('mertcan.gokgoz@hotmail.com','Mertcan');
-	$mail->AddReplyTo("mertcan.gokgoz@hotmail.com","Mertcan");
+	$mail->SetFrom('CHANGE','CHANGE');
+	$mail->AddReplyTo("CHANGE","CHANGE");
 	$mail->Subject    = $subject;
 	$mail->MsgHTML($message);
 	$mail->send();
 }	
 
 
-function curt_kullan($url) {
+function curl_kullan($url): bool|string
+{
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);

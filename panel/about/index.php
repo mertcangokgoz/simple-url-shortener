@@ -84,8 +84,6 @@ if (!$giris_yapilmis) {
                     <li>
                         <a href="/panel/about/"><i class="fa fa-info fa-fw"></i> Hakkımızda</a>
                     </li>
-                    <li>
-                        <a href="/panel/contact/"><i class="fa fa-phone fa-fw"></i> İletişim</a>
                     </li>
                 </ul>
             </div>
@@ -99,26 +97,26 @@ if (!$giris_yapilmis) {
             <div class="col-lg-12">
                 <h1 class="page-header">Hakkımızda</h1>
             </div>
-             <div class="col-lg-12">
+            <div class="col-lg-12">
                 <p>Troya.ml açık kaynak kodlu basit bir link kısaltma sistemidir.<br/>
-<br/>
-Katkı Sağlayanlar<br/>
-TROYA.ML<br/>
-<br/>
-KATKI SAĞLAYANLAR<br/>
-<br/>
-Geliştiriciler<br/>
-    Mertcan GÖKGÖZ (@MertcanGokgoz)<br/>
-    Ali Gören (@aligoren)<br/>
-    Mustafa Furkan KALKAN (@geekdinazor)<br/>
-    Ömer İpek (@omeripek)<br/>
-<br/><br/>
-HOSTING<br/>
-<br/>
-Sistemci<br/>
-    Abdullah ÜLKER (@CaylakPenguen)<br/>
-TEŞEKKÜRLER<br/>
-                  
+                    <br/>
+                    Katkı Sağlayanlar<br/>
+                    TROYA.ML<br/>
+                    <br/>
+                    KATKI SAĞLAYANLAR<br/>
+                    <br/>
+                    Geliştiriciler<br/>
+                    Mertcan GÖKGÖZ (@MertcanGokgoz)<br/>
+                    Ali Gören (@aligoren)<br/>
+                    Mustafa Furkan KALKAN (@geekdinazor)<br/>
+                    Ömer İpek (@omeripek)<br/>
+                    <br/><br/>
+                    HOSTING<br/>
+                    <br/>
+                    Sistemci<br/>
+                    Abdullah ÜLKER (@CaylakPenguen)<br/>
+                    TEŞEKKÜRLER<br/>
+
                 </p>
             </div>
         </div>

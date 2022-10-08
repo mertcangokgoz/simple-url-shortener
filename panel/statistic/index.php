@@ -102,9 +102,6 @@ $avg = $query->rowCount() - $stmt->rowCount();
                     <li>
                         <a href="/panel/about/"><i class="fa fa-info fa-fw"></i> Hakkımızda</a>
                     </li>
-                     <li>
-                        <a href="/panel/contact/"><i class="fa fa-phone fa-fw"></i> İletişim</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -119,7 +116,7 @@ $avg = $query->rowCount() - $stmt->rowCount();
                 <h1 class="page-header">İstatistikler</h1>
             </div>
         </div>
-        
+
         <div class="col-lg-3 col-md-6">
             <div class="panel panel-green">
                 <div class="panel-heading">
@@ -188,68 +185,71 @@ $avg = $query->rowCount() - $stmt->rowCount();
                 </div>
             </div>
         </div>
-    <div class="row">
-                        <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Üye İstatistiği
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-pie-chart"></div>
-                                <br>
-                                    *Anonim kullanıcılar hesaplanırken üye olmayan kullanıcılar tarafından kısaltılan her benzersiz link farklı kullanıcılar tarafından kısaltılmış 
-                                    kabul edilmektedir.
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Üye İstatistiği
                     </div>
-                    <!-- /.panel -->
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="flot-chart">
+                            <div class="flot-chart-content" id="flot-pie-chart"></div>
+                            <br>
+                            *Anonim kullanıcılar hesaplanırken üye olmayan kullanıcılar tarafından kısaltılan her
+                            benzersiz link farklı kullanıcılar tarafından kısaltılmış
+                            kabul edilmektedir.
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
                 </div>
+                <!-- /.panel -->
+            </div>
+        </div>
     </div>
 </div>
-</div>
 <script type="text/javascript">
-$(function() {
+    $(function () {
 
-    var data = [{
-        label: "Anonim Kullanıcı Sayısı*",
-        data: '<?php echo $stmt->rowCount(); ?>'
-    }, {
-        label: "Kayıtlı Üye Sayısı",
-        data: '<?php echo $user->rowCount(); ?>'
-    }];
+        var data = [{
+            label: "Anonim Kullanıcı Sayısı*",
+            data: '<?php echo $stmt->rowCount(); ?>'
+        }, {
+            label: "Kayıtlı Üye Sayısı",
+            data: '<?php echo $user->rowCount(); ?>'
+        }];
 
-    var plotObj = $.plot($("#flot-pie-chart"), data, {
-        series: {
-            pie: {
-                show: true
-            }
-        },
-        grid: {
-            hoverable: true
-        },
-        tooltip: true,
-        tooltipOpts: {
-            content: "%p.0%, %s",
-            shifts: {
-                x: 20,
-                y: 0
+        var plotObj = $.plot($("#flot-pie-chart"), data, {
+            series: {
+                pie: {
+                    show: true
+                }
             },
-            defaultTheme: true
+            grid: {
+                hoverable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s",
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: true
             }
-    });
+        });
 
-});
+    });
 </script>
 <script src="../../inc/sb-admin-2.js"></script>
 <script src="../../inc/metisMenu.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/excanvas.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.resize.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.resize.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot.tooltip/0.8.7/jquery.flot.tooltip.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/flot.tooltip/0.8.7/jquery.flot.tooltip.min.js"></script>
 </body>
 </html>

@@ -20,10 +20,10 @@ if (isset($_POST["submit"])) {
     $sifre = cleandata($_POST["password"]);
     $recaptcha = $_POST['g-recaptcha-response'];
     $google_url = "https://www.google.com/recaptcha/api/siteverify";
-    $secret = "6Led9B8TAAAAALJQVgo5G8cNTkq9mwkXL_yD3j0o";
+    $secret = "CHANGE THIS";
     $ip = $_SERVER['REMOTE_ADDR'];
     $url = $google_url . "?secret=" . $secret . "&response=" . $recaptcha . "&remoteip=" . $ip;
-    $res = curt_kullan($url);
+    $res = curl_kullan($url);
     $res = json_decode($res, true);
     $stmt = $db->prepare("select * from members where username = :kadi");
     $stmt->execute(array(":kadi" => $kadi));
@@ -41,7 +41,7 @@ if (isset($_POST["submit"])) {
         } else {
             $error = "Giriş Yapılamadı Kullanıcı Adı veya şifre yanlış";
         }
-    }else{
+    } else {
         $error = "Lütfen bot olmadığınızı doğrulayın.";
     }
 }

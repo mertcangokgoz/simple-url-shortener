@@ -1,13 +1,13 @@
-<?php 
+<?php
 
-session_start() 
+session_start()
 
 ?>
 
 <!DOCTYPE html>
-<html lang="TR" class="no-js" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="TR" class="no-js">
 <head>
-    <title>URL Kısaltma Servisi</title>
+    <title>Simple URL Shortening Service</title>
 
     <!-- Google Main Meta -->
     <meta charset='utf-8'>
@@ -24,8 +24,8 @@ session_start()
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="inc/costum.css">
-    <script language="JavaScript">
+    <link rel="stylesheet" href="inc/custom.css">
+    <script>
         $(document).ready(function () {
             $("#send").click(function () {
                 $('.alert').remove();
@@ -38,8 +38,8 @@ session_start()
                         data: $("#shortener").serialize(),
                         success: function (data) {
                             var json = JSON.parse(data);
-                                $('.result').html('');
-                                $('.result').html('<input type="text" name="url" class="form-control" value="' + json.url + '">');
+                            $('.result').html('');
+                            $('.result').html('<input type="text" name="url" class="form-control" value="' + json.url + '">');
                         }
                     });
                 } else {
@@ -50,9 +50,8 @@ session_start()
         });
     </script>
     <!-- Content -->
-    <link rel="author" href="//plus.google.com/103305118431759296457/posts"/>
-    <link rel="publisher" href="//plus.google.com/103305118431759296457/posts"/>
 </head>
+
 <body>
 <!--[if lt IE 8]>
 <p class="chromeframe">outdated</p>
@@ -60,14 +59,14 @@ session_start()
 <div class="container">
     <div class="row">
         <div class=" col-md-10 ">
-            <h1 class='title text-center'><a href="http://troya.ml">troya.ml</a></h1>
-            <p class='desc text-center'>URL Kısaltma Servisi</p>
+            <h1 class='title text-center'>Simple URL Shortening Service</h1>
         </div>
         <br>
-        <?php if (isset($_SESSION['username']) && $_SESSION['username'] == true) { ?>
-            <div class="col-md-2"><?php echo '<p >Hoşgeldin ' . htmlentities($_SESSION['username']) . ' <a href="/panel/">Hesap</a><span> | </span><a href="logout.php"> Çıkış Yap</a></p> '; ?></div>
-        <?php }else{ ?>
-            <div class="col-md-2"><?php echo '<p class="text-center"><a href="login.php"> Giriş Yap</a></p>' ?></div>
+        <?php if (isset($_SESSION['username']) && $_SESSION['username']) { ?>
+            <div
+                class="col-md-2"><?php echo '<p >Welcome ' . htmlentities($_SESSION['username']) . ' <a href="/panel/">Profile</a><span> | </span><a href="logout.php"> Logout</a></p> '; ?></div>
+        <?php } else { ?>
+            <div class="col-md-2"><?php echo '<p class="text-center"><a href="login.php"> Login</a></p>' ?></div>
         <?php } ?>
     </div>
     <div class="well content">
@@ -76,13 +75,15 @@ session_start()
                 <div class="form-group">
                     <form method="post" action="" id="shortener" onsubmit="return false">
                         <div class="input-group input-group-lg">
-                            <span class="input-group-addon" id="sizing-addon1">URL Kısalt:</span>
-                            <input type="text" name="url" id="longurl" class="form-control" placeholder="URL"
-                                   aria-describedby="sizing-addon1" required>
-                            <input type="text" name="alias" id="alias" class="form-control" placeholder="Özel Takma Ad"
-                                   aria-describedby="sizing-addon1" maxlength="10">
+                            <span class="input-group-addon" id="sizing-addon1">URL:</span>
+                            <label for="longurl"></label><input type="text" name="url" id="longurl" class="form-control"
+                                                                placeholder="URL"
+                                                                aria-describedby="sizing-addon1" required>
+                            <label for="alias"></label><input type="text" name="alias" id="alias" class="form-control"
+                                                              placeholder="Alias"
+                                                              aria-describedby="sizing-addon1" maxlength="10">
                             <span class="input-group-btn">
-                                 <button type="submit" id="send" class="btn btn-success">Kısalt</button>
+                                 <button type="submit" id="send" class="btn btn-success">Short</button>
                             </span>
                         </div>
                     </form>
@@ -92,7 +93,7 @@ session_start()
         <div class="row">
             <div class="col-md-6 center">
                 <div class="result">
-                    
+
                 </div>
             </div>
         </div>
@@ -101,7 +102,7 @@ session_start()
 <div id="footer">
     <ul>
         <li><a href="mailto:admin@mertcangokgoz.com">Feedback</a></li>
-        <li><a href="https://github.com/MertcanGokgoz/simple-url-shortener">Github</a></li>
+        <li><a href="https://github.com/mertcangokgoz/simple-url-shortener">Github</a></li>
     </ul>
 </div>
 </body>

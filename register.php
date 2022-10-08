@@ -22,12 +22,11 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
     //Google Captcha Api Response
     $recaptcha = $_POST['g-recaptcha-response'];
     $google_url = "https://www.google.com/recaptcha/api/siteverify";
-    $secret = "6Led9B8TAAAAALJQVgo5G8cNTkq9mwkXL_yD3j0o";
+    $secret = "CHGANGE";
     $ip = $_SERVER['REMOTE_ADDR'];
     $url = $google_url . "?secret=" . $secret . "&response=" . $recaptcha . "&remoteip=" . $ip;
-    $res = curt_kullan($url);
+    $res = curl_kullan($url);
     $res = json_decode($res, true);
-    $code = md5(uniqid(rand()));
     //Captcha Sonrası güvenlik kontrolleri
     if ($res['success']) {
         if (empty($email) || empty($user) || empty($password) || empty($password2) || empty($token)) {
@@ -35,7 +34,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
         } else {
             $password_md = password_hash($password, PASSWORD_DEFAULT);
             //üyelik kontrol yapısı
-            $stmt = $db->prepare("SELECT username, mail FROM members WHERE username=:uname OR mail=:umail");
+            $stmt = $db->prepare("SELECT username, email FROM members WHERE username=:uname OR email=:umail");
             $stmt->execute(array(
                 ':uname' => $user,
                 ':umail' => $email
@@ -57,12 +56,12 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                 } elseif ($password != $password2) {
                     $error = "Şifre uyuşmuyor.";
                 } else {
-                    $save = $db->prepare("INSERT INTO members(username, password, mail,token) VALUES (:user,:password,:email,:token)");
+                    $save = $db->prepare("INSERT INTO members(username, password, email, token) VALUES (:user,:password,:email,:token)");
                     $save->execute(array(
                         ":user" => $user,
                         ":password" => $password_md,
                         ":email" => $email,
-                        ":token" => $code
+                        ":token" => md5(uniqid(rand()))
                     ));
                     if ($save) {
                         $success = "Başarılı bir şekilde üye oldunuz yönlendiriliyorsunuz.";
@@ -74,7 +73,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                 }
             }
         }
-    }else{
+    } else {
         $error = "Lütfen bot olmadığınızı doğrulayın.";
     }
 }
@@ -85,7 +84,8 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script type="application/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="inc/main.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
@@ -115,7 +115,7 @@ if (isset($_POST["submit"]) && $_POST['form_token'] != $_SESSION['form_token']) 
                         <?php
                     }
                     ?>
-                    
+
                     <?php
                     if (isset($success)) {
                         ?>

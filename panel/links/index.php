@@ -12,13 +12,13 @@ if (!$giris_yapilmis) {
 }
 
 
-$query = $db->prepare("SELECT * FROM urls WHERE username=:session ORDER BY url_id ASC");
+$query = $db->prepare("SELECT * FROM urls WHERE username=:session ORDER BY id ASC");
 $query->execute(array(':session' => $_SESSION['username']));
 $row = $query->fetchAll(PDO::FETCH_ASSOC);
 
-if (isset($_GET["sil"])){
-    $query = $db->prepare("DELETE FROM urls WHERE url_id=:delete AND username=:username");
-    $query->execute(array(':delete' => $_GET["sil"], ':username'=> $_SESSION['username']));
+if (isset($_GET["sil"])) {
+    $query = $db->prepare("DELETE FROM urls WHERE id=:delete AND username=:username");
+    $query->execute(array(':delete' => $_GET["sil"], ':username' => $_SESSION['username']));
     $row = $query->fetchAll(PDO::FETCH_ASSOC);
     header('Location: /panel/links/');
 }
@@ -96,9 +96,6 @@ if (isset($_GET["sil"])){
                     <li>
                         <a href="/panel/about/"><i class="fa fa-info fa-fw"></i> Hakkımızda</a>
                     </li>
-                     <li>
-                        <a href="/panel/contact/"><i class="fa fa-phone fa-fw"></i> İletişim</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -124,15 +121,15 @@ if (isset($_GET["sil"])){
                         <div class="col-xs-9 text-right">
                             <div class="huge"><?php echo count($row) ?></div>
                         </div>
-                        
+
                     </div>
-                    
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">Toplam Kısaltılmış Link Sayınız</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
+
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">Toplam Kısaltılmış Link Sayınız</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -143,17 +140,20 @@ if (isset($_GET["sil"])){
                 <th>Link</th>
                 <th>Kısa Link</th>
                 <th>Tarih</th>
-                <th> </th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <?php for( $i = 0; $i < count($row); $i++ ) : ?>
+            <?php for ($i = 0; $i < count($row); $i++) : ?>
                 <tr>
-                    <td scope="row"><?php echo $i+1; ?></td>
-                    <td><a href="<?php echo urldecode($row[$i]['url_link']); ?>" target="_blank"><?php echo urldecode($row[$i]['url_link']); ?></a></td>
-                    <td><a href="<?php echo $server_name . $row[$i]['url_short']; ?>" target="_blank"><?php echo $row[$i]['url_short']; ?></a></td>
-                    <td><?php echo $row[$i]['url_date']; ?></td>
-                    <td><a href = "index.php?sil=<?php echo $row[$i]['url_id'] ?>" class="btn btn-danger" role = "button">Sil</a></td>
+                    <td scope="row"><?php echo $i + 1; ?></td>
+                    <td><a href="<?php echo urldecode($row[$i]['url']); ?>"
+                           target="_blank"><?php echo urldecode($row[$i]['url']); ?></a></td>
+                    <td><a href="<?php echo $server_name . $row[$i]['url_short']; ?>"
+                           target="_blank"><?php echo $row[$i]['url_short']; ?></a></td>
+                    <td><?php echo $row[$i]['date']; ?></td>
+                    <td><a href="index.php?sil=<?php echo $row[$i]['id'] ?>" class="btn btn-danger" role="button">Sil</a>
+                    </td>
                 </tr>
             <?php endfor; ?>
             </tbody>
@@ -163,13 +163,13 @@ if (isset($_GET["sil"])){
     </div>
 </div>
 </div>
-    <script>
-    $(document).ready(function() {
+<script>
+    $(document).ready(function () {
         $('#dataTables-example').DataTable({
-                responsive: true
+            responsive: true
         });
     });
-    </script>
+</script>
 <script src="../../inc/sb-admin-2.js"></script>
 <script src="../../inc/metisMenu.min.js"></script>
 </body>

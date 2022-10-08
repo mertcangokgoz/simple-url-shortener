@@ -89,9 +89,6 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                     <li>
                         <a href="/panel/about/"><i class="fa fa-info fa-fw"></i> Hakkımızda</a>
                     </li>
-                    <li>
-                        <a href="/panel/contact/"><i class="fa fa-phone fa-fw"></i> İletişim</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
