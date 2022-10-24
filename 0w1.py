@@ -25,8 +25,6 @@ def getSite(url):
 
     if not (url.startswith('http://') or url.startswith('https://')):
         return('Site adresi http:// ya da https:// ile başlamalıdır')
-        sys.exit(1)
-
     data = 'url={0}'.format(url)
 
     r = requests.post('http://0w1.xyz/ajax.php', headers=headers, data=data)
@@ -34,8 +32,6 @@ def getSite(url):
     jsonDecode = json.loads(r.text)
 
     return jsonDecode['url']
-    """print("Short URL:", jsonDecode['url'])
-    print("Site URL:", jsonDecode['site_url'])"""
 
 
 class DoSortUrl:
